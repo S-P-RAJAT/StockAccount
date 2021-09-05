@@ -45,6 +45,34 @@ public class StocksAccount {
 		}
 	}
 
-	
-	
+	public void sell(int amount, String name) {
+		MyNode<Stock> tempNode = (MyNode<Stock>) stocksList.head;
+		while (tempNode != null && tempNode.getNext() != null) {
+			if (tempNode.getKey().getName().equals(name)) {
+				double sharePrice = tempNode.getKey().getSharePrice();
+				int noOfShares = (int) (amount / sharePrice);
+				int orginalNoOfShare = tempNode.getKey().getNumberOfShares();
+				int sell = orginalNoOfShare - noOfShares;
+				if (sell > 0) {
+					tempNode.getKey().setNumberOfShares(sell);
+					System.out.println(noOfShares + " shares are sold from " + name);
+				} else {
+					System.out.println("You have not enough shares");
+				}
+			}
+			tempNode = (MyNode<Stock>) tempNode.getNext();
+		}
+		if (tempNode != null && tempNode.getNext() == null && tempNode.getKey().getName().equals(name)) {
+			double sharePrice = tempNode.getKey().getSharePrice();
+			int noOfShares = (int) (amount / sharePrice);
+			int orginalNoOfShare = tempNode.getKey().getNumberOfShares();
+			int sell = orginalNoOfShare - noOfShares;
+			if (sell > 0) {
+				tempNode.getKey().setNumberOfShares(sell);
+				System.out.println(noOfShares + " shares are sold from " + name);
+			} else {
+				System.out.println("You have not enough shares");
+			}
+		}
+	}
 }
