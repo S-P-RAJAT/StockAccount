@@ -2,13 +2,19 @@ package com.bridgelabz.stockaccountmanagement;
 
 import com.bridgelabz.linkedlist.MyLinkedList;
 import com.bridgelabz.linkedlist.MyNode;
+import com.bridgelabz.stacks.MyStack;
 
 public class StocksAccount implements StocksAccountIF {
+	
 	private MyLinkedList<Stock> stocksList;
-
-	public StocksAccount(MyLinkedList<Stock> stocksList) {
+	private MyStack<String> myPurchase;
+	private MyStack<String> mySelling;
+	
+	public StocksAccount(MyLinkedList<Stock> stocksList, MyStack<String> myPurchase, MyStack<String> mySelling) {
 		super();
 		this.stocksList = stocksList;
+		this.myPurchase = myPurchase;
+		this.mySelling = mySelling;
 	}
 
 	public double valueOf() {
@@ -42,6 +48,8 @@ public class StocksAccount implements StocksAccountIF {
 		int noOfShares = (int) (amount / sharePrice);
 		int orginalNoOfShare = tempNode.getKey().getNumberOfShares();
 		tempNode.getKey().setNumberOfShares(noOfShares + orginalNoOfShare);
+		MyNode<String> nameInStack = new MyNode<String>(name);
+		myPurchase.push(nameInStack);
 		System.out.println(noOfShares + " shares are added to " + name);
 
 	}
@@ -54,6 +62,8 @@ public class StocksAccount implements StocksAccountIF {
 			int sell = orginalNoOfShare - noOfShares;
 			if (sell >= 0) {
 				tempNode.getKey().setNumberOfShares(sell);
+				MyNode<String> nameInStack = new MyNode<String>(name);
+				mySelling.push(nameInStack);
 				System.out.println(noOfShares + " shares worth "+(tempNode.getKey().getSharePrice()*noOfShares)+" are sold from " + name);
 			} else {
 				System.out.println("You have not enough shares");
@@ -77,5 +87,11 @@ public class StocksAccount implements StocksAccountIF {
 		} else {
 			System.out.println("No shares exists in the stock account");
 		}
+	}
+	public void stackDisplay() {
+		System.out.println("Names of the stocks which were purchased");
+		myPurchase.printStack();
+		System.out.println("Names of the stocks which were sold");
+		mySelling.printStack();
 	}
 }

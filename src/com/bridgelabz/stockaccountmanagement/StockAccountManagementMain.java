@@ -11,7 +11,7 @@ public static void main(String[] args) {
 	StockAccountManagement manager = new StockAccountManagement();
 	int choice;
 	do {
-		System.out.println("\n1.Buy a share \n2.Sell a share \n3.Display shares \n4.Delete shares \n5.Exit");
+		System.out.println("\n1.Buy a share \n2.Sell a share \n3.Display shares \n4.Delete shares \n5.History \n6.Exit");
 		choice = scanner.nextInt();
 		scanner.nextLine();
 		switch (choice) {
@@ -31,12 +31,14 @@ public static void main(String[] args) {
 			manager.deleteShare();
 			break;
 		case 5:
+			manager.showHistory();
+		case 6:
 			break;
 			
 		default:
 			System.out.println("Choose correct option from above mentioned option only!!");
 			break;
 		}
-	} while (choice != 5);
+	} while (choice != 6);
 	}
 }

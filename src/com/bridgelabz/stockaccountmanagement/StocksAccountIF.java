@@ -12,4 +12,7 @@ public interface StocksAccountIF {
 	void sell(int amount, String symbol);
 		
 	void printReport();
+
+	void stackDisplay();
+
 }

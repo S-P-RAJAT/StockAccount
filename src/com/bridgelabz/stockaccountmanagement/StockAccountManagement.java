@@ -4,12 +4,16 @@ import java.util.Scanner;
 
 import com.bridgelabz.linkedlist.MyLinkedList;
 import com.bridgelabz.linkedlist.MyNode;
+import com.bridgelabz.stacks.MyStack;
 
 public class StockAccountManagement {
 	static final Scanner scanner = StockAccountManagementMain.scanner;
 
 	MyLinkedList<Stock> stocksList = new MyLinkedList<Stock>();
-	StocksAccountIF stockAccount = new StocksAccount(stocksList);
+	MyStack<String> myPurchase= new MyStack<String>();
+	MyStack<String> mySelling= new MyStack<String>();
+
+	StocksAccountIF stockAccount = new StocksAccount(stocksList,myPurchase,mySelling);
 
 	public void buyShare() {
 		System.out.println("Enter the name of stock");
@@ -19,12 +23,16 @@ public class StockAccountManagement {
 
 		if (stockAccount.search(name) != null) {
 			stockAccount.buy(numOfShares, name);
+			
+
 		} else {
 			System.out.println("Enter the price for each share");
 			double price = scanner.nextDouble();
 			Stock stock = new Stock(name, numOfShares, price);
 			MyNode<Stock> myStockNode = new MyNode<Stock>(stock);
 			stocksList.append(myStockNode);
+			MyNode<String> nameInStack = new MyNode<String>(name);
+			myPurchase.push(nameInStack);
 		}
 	}
 
@@ -56,5 +64,8 @@ public class StockAccountManagement {
 			System.out.println("You don't own any shares with such name!");
 		}
 		
+	}
+	public void showHistory() {
+		stockAccount.stackDisplay();
 	}
 }
