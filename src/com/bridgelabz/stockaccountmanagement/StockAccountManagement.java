@@ -44,4 +44,17 @@ public class StockAccountManagement {
 		stockAccount.printReport();
 
 	}
+
+	public void deleteShare() {
+		System.out.println("Enter the name of stock");
+		String name = scanner.next();
+		MyNode<Stock> tempNode = stockAccount.search(name);
+		if(tempNode != null) {
+			stocksList.deleteGivenKeyNode(tempNode.getKey());
+		System.out.println("Share is deleted!");
+		} else {
+			System.out.println("You don't own any shares with such name!");
+		}
+		
+	}
 }

@@ -52,7 +52,7 @@ public class StocksAccount implements StocksAccountIF {
 			int noOfShares = (int) (amount / sharePrice);
 			int orginalNoOfShare = tempNode.getKey().getNumberOfShares();
 			int sell = orginalNoOfShare - noOfShares;
-			if (sell > 0) {
+			if (sell >= 0) {
 				tempNode.getKey().setNumberOfShares(sell);
 				System.out.println(noOfShares + " shares worth "+(tempNode.getKey().getSharePrice()*noOfShares)+" are sold from " + name);
 			} else {
