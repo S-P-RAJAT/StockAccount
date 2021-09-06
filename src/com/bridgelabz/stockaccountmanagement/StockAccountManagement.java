@@ -1,19 +1,23 @@
 package com.bridgelabz.stockaccountmanagement;
 
 import java.util.Scanner;
+import java.time.LocalDateTime;
 
 import com.bridgelabz.linkedlist.MyLinkedList;
 import com.bridgelabz.linkedlist.MyNode;
+import com.bridgelabz.queues.MyQueue;
 import com.bridgelabz.stacks.MyStack;
 
 public class StockAccountManagement {
 	static final Scanner scanner = StockAccountManagementMain.scanner;
-
+	static final String BUY = "STOCK - BUY";
+	static final String SELL = "STOCK - SELL";
 	MyLinkedList<Stock> stocksList = new MyLinkedList<Stock>();
 	MyStack<String> myPurchase= new MyStack<String>();
 	MyStack<String> mySelling= new MyStack<String>();
+	MyQueue<Transactions> transactions = new MyQueue<Transactions>();
 
-	StocksAccountIF stockAccount = new StocksAccount(stocksList,myPurchase,mySelling);
+	StocksAccountIF stockAccount = new StocksAccount(stocksList,myPurchase,mySelling,transactions);
 
 	public void buyShare() {
 		System.out.println("Enter the name of stock");
@@ -33,6 +37,10 @@ public class StockAccountManagement {
 			stocksList.append(myStockNode);
 			MyNode<String> nameInStack = new MyNode<String>(name);
 			myPurchase.push(nameInStack);
+			LocalDateTime date = LocalDateTime.now();
+			Transactions node = new Transactions(name, price, numOfShares,BUY,date);
+			MyNode<Transactions> myQueueNode = new MyNode<Transactions>(node);
+			transactions.enqueue(myQueueNode);
 		}
 	}
 
@@ -67,5 +75,8 @@ public class StockAccountManagement {
 	}
 	public void showHistory() {
 		stockAccount.stackDisplay();
+		
+		System.out.println("\nTransactions History");
+		transactions.printQueue();
 	}
 }

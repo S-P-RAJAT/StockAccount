@@ -1,7 +1,11 @@
 package com.bridgelabz.stockaccountmanagement;
 
+
+import java.time.LocalDateTime;
+
 import com.bridgelabz.linkedlist.MyLinkedList;
 import com.bridgelabz.linkedlist.MyNode;
+import com.bridgelabz.queues.MyQueue;
 import com.bridgelabz.stacks.MyStack;
 
 public class StocksAccount implements StocksAccountIF {
@@ -9,12 +13,16 @@ public class StocksAccount implements StocksAccountIF {
 	private MyLinkedList<Stock> stocksList;
 	private MyStack<String> myPurchase;
 	private MyStack<String> mySelling;
+	MyQueue<Transactions> transactions;
+	static final String BUY = "STOCK - BUY";
+	static final String SELL = "STOCK - SELL";
 	
-	public StocksAccount(MyLinkedList<Stock> stocksList, MyStack<String> myPurchase, MyStack<String> mySelling) {
+	public StocksAccount(MyLinkedList<Stock> stocksList, MyStack<String> myPurchase, MyStack<String> mySelling,MyQueue<Transactions> transactions) {
 		super();
 		this.stocksList = stocksList;
 		this.myPurchase = myPurchase;
 		this.mySelling = mySelling;
+		this.transactions = transactions;
 	}
 
 	public double valueOf() {
@@ -51,6 +59,10 @@ public class StocksAccount implements StocksAccountIF {
 		MyNode<String> nameInStack = new MyNode<String>(name);
 		myPurchase.push(nameInStack);
 		System.out.println(noOfShares + " shares are added to " + name);
+		LocalDateTime now = LocalDateTime.now();
+		Transactions node = new Transactions(name, sharePrice, noOfShares,BUY,now);
+		MyNode<Transactions> myQueueNode = new MyNode<Transactions>(node);
+		transactions.enqueue(myQueueNode);
 
 	}
 
@@ -65,6 +77,10 @@ public class StocksAccount implements StocksAccountIF {
 				MyNode<String> nameInStack = new MyNode<String>(name);
 				mySelling.push(nameInStack);
 				System.out.println(noOfShares + " shares worth "+(tempNode.getKey().getSharePrice()*noOfShares)+" are sold from " + name);
+				LocalDateTime now = LocalDateTime.now();
+				Transactions node = new Transactions(name, sharePrice, noOfShares,SELL,now);
+				MyNode<Transactions> myQueueNode = new MyNode<Transactions>(node);
+				transactions.enqueue(myQueueNode);
 			} else {
 				System.out.println("You have not enough shares");
 			}
