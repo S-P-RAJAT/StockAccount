@@ -1,6 +1,5 @@
 package com.bridgelabz.stockaccountmanagement;
 
-import com.bridgelabz.linkedlist.MyLinkedList;
 import java.util.Scanner;
 
 
